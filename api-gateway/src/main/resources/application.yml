@@ -1,0 +1,31 @@
+server:
+  port: 8996
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/users/**
+
+        - id: RISK-SERVICE
+          uri: lb://RISK-SERVICE
+          predicates:
+            - Path=/api/risk/**
+
+        - id: NOTIFY-SERVICE
+          uri: lb://NOTIFY-SERVICE
+          predicates:
+            - Path=/api/notify/**
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8993/eureka
